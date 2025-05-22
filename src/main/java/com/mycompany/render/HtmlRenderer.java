@@ -5,10 +5,6 @@
  */
 package com.mycompany.render;
 
-import com.mycompany.render.HeadRenderer;
-import com.mycompany.render.Attributes;
-import com.mycompany.render.Node;
-import com.mycompany.render.Renderer;
 import java.util.ArrayList;
 import java.util.List;
 

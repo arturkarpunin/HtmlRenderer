@@ -5,9 +5,6 @@
  */
 package com.mycompany.render;
 
-import com.mycompany.render.Node;
-import com.mycompany.render.Renderer;
-
 /**
  *
  * @author artur

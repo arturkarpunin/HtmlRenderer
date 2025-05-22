@@ -5,8 +5,6 @@
  */
 package com.mycompany.render;
 
-import com.mycompany.render.Node;
-import com.mycompany.render.Renderer;
 import java.util.ArrayList;
 import java.util.List;
 
