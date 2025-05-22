@@ -60,7 +60,6 @@ public class NewMain {
     }
     
     private interface Renderer {
-        
         public String render();
     }
     
