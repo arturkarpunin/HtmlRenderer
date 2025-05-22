@@ -20,29 +20,59 @@ public class NewMain {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        HeadRenderer headRenderer = new HeadRenderer();
-        TableRenderer table = new TableRenderer.Builder().build();
-        BodyRenderer body = (BodyRenderer) new BodyRenderer.Builder()
-                .addContent(table)
+        TdRenderer td = new TdRenderer.Builder()
+                .addContent(
+                        new Node.Builder()
+                                .content("ala ma kota")
+                                .build())
                 .build();
-        HtmlRenderer html = new HtmlRenderer(headRenderer, body);
-        System.out.println(html.render());
+        
+        ThRenderer th = new ThRenderer.Builder()
+                .colspan(2)
+                .style("width: 16px;")
+                .addContent(new Node.Builder()
+                        .content("ala ma kota")
+                        .build())
+                .build();
+        TrRenderer tr = new TrRenderer.Builder()
+                .addContent(th)
+                .build();
+        
+        THeadRenderer thead = new THeadRenderer.Builder()
+                .addContent(tr)
+                .build();
+        
+        System.out.println(thead.render());
+//
+//        TableRenderer table = new TableRenderer(
+//                thead,
+//                new TBodyRenderer.Builder()
+//                        .build(),
+//                new TFootRenderer.Builder()
+//                        .build());
+//
+//        BodyRenderer body = (BodyRenderer) new BodyRenderer.Builder()
+//                .addContent(table)
+//                .build();
+//
+//        HtmlRenderer html = new HtmlRenderer(new HeadRenderer(), body);
+//        System.out.println(html.render());
     }
-
-    private static interface Renderer {
-
-        public abstract String render();
+    
+    private interface Renderer {
+        
+        public String render();
     }
-
+    
     private static class Attributes implements Renderer {
-
+        
         private final Map<String, String> maps = new HashMap<>();
-
+        
         public Attributes add(String key, String value) {
             maps.put(key, value);
             return this;
         }
-
+        
         @Override
         public String render() {
             StringBuilder sb = new StringBuilder();
@@ -53,81 +83,85 @@ public class NewMain {
             });
             return sb.toString();
         }
-
+        
     }
-
+    
     private static class Node<T> implements Renderer {
-
+        
         private final String tag;
         private final Attributes attributes;
         private final T content;
         private final Boolean noEndTag;
-
+        
         private Node(Builder<T> builder) {
             this.tag = builder.tag;
             this.content = builder.content;
             this.attributes = builder.attributes;
             this.noEndTag = builder.noEndTag;
         }
-
+        
         public static class Builder<T> {
-
+            
             private final String tag;
             private Attributes attributes = new Attributes();
             private T content = null;
             private boolean noEndTag = false;
-
+            
             public Builder(String tag) {
                 this.tag = tag;
             }
-
-            private Builder() {
-                throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+            
+            public Builder() {
+                this.tag = null;
             }
-
+            
             public Builder content(T content) {
                 this.content = content;
                 return this;
             }
-
+            
             public Builder attributes(Attributes attributes) {
                 this.attributes = attributes;
                 return this;
             }
-
+            
             public Builder noEndTag(boolean flag) {
                 this.noEndTag = flag;
                 return this;
             }
-
+            
             public Node build() {
                 return new Node(this);
             }
         }
-
+        
         @Override
         public String render() {
             StringBuilder sb = new StringBuilder();
-            sb.append(startTag()).append('\n');
-            sb.append(renderContent()).append('\n');
-            sb.append(endTag()).append('\n');
+            if (tag == null) {
+                sb.append(renderContent());
+            } else {
+                sb.append(startTag()).append('\n');
+                sb.append(renderContent()).append('\n');
+                sb.append(endTag()).append('\n');
+            }
             return sb.toString();
         }
-
+        
         private String startTag() {
             if (noEndTag) {
                 return String.format("<%s%s/>", tag, attributes.render());
             }
             return String.format("<%s%s>", tag, attributes.render());
         }
-
+        
         private String endTag() {
             if (noEndTag) {
                 return "";
             }
             return String.format("</%s>", tag);
         }
-
+        
         private String renderContent() {
             if (content instanceof Node) {
                 return ((Renderer) content).render();
@@ -145,18 +179,18 @@ public class NewMain {
                 return "";
             }
         }
-
+        
     }
-
+    
     private static class HtmlRenderer implements Renderer {
-
+        
         private final List<Renderer> contents = new ArrayList<>();
-
+        
         public HtmlRenderer(HeadRenderer head, BodyRenderer body) {
             this.contents.add(head);
             this.contents.add(body);
         }
-
+        
         @Override
         public String render() {
             return new Node.Builder("html")
@@ -165,10 +199,11 @@ public class NewMain {
                     .build()
                     .render();
         }
-
+        
     }
-
+    
     private static class HeadRenderer implements Renderer {
+        
         private final List<Renderer> contents = new ArrayList<>();
         
         public HeadRenderer() {
@@ -176,7 +211,7 @@ public class NewMain {
             this.contents.add(new StyleRenderer());
             this.contents.add(new TitleRenderer("Tytuł"));
         }
-
+        
         @Override
         public String render() {
             return new Node.Builder("head")
@@ -184,17 +219,17 @@ public class NewMain {
                     .build()
                     .render();
         }
-
+        
     }
-
+    
     private static class MetaRenderer implements Renderer {
-
+        
         private final String charset;
-
+        
         public MetaRenderer(String charset) {
             this.charset = charset;
         }
-
+        
         @Override
         public String render() {
             return new Node.Builder("meta")
@@ -204,15 +239,15 @@ public class NewMain {
                     .render();
         }
     }
-
+    
     private static class TitleRenderer implements Renderer {
-
+        
         private final String title;
-
+        
         public TitleRenderer(String title) {
             this.title = title;
         }
-
+        
         @Override
         public String render() {
             return new Node.Builder("title")
@@ -220,11 +255,11 @@ public class NewMain {
                     .build()
                     .render();
         }
-
+        
     }
-
+    
     private static class StyleRenderer implements Renderer {
-
+        
         private static final String TABLE_CSS = "table {width: 100%;border-collapse: collapse;}";
         private static final String TH_TD_CSS = "th, td {\n"
                 + "      border: 1px solid #C3C1C1;\n"
@@ -233,7 +268,7 @@ public class NewMain {
                 + "      color: #000;\n"
                 + "      text-align: center;\n"
                 + "    }";
-
+        
         private static final String DOT_UI_ICON_CSS = ".ui-icon {\n"
                 + "      width: 16px;\n"
                 + "      height: 16px;\n"
@@ -242,15 +277,15 @@ public class NewMain {
         private static final String DOT_UI_ICON_CHECK_CSS = ".ui-icon-check {\n"
                 + "      background-color: green;\n"
                 + "    }";
-
+        
         private static final String DOT_UI_ICON_CLOSE_CSS = ".ui-icon-close {\n"
                 + "      background-color: red;\n"
                 + "    }";
-
+        
         private static final String DOT_IU_STATE_DISABLED_CSS = ".ui-state-disabled {\n"
                 + "      color: #999;\n"
                 + "    }";
-
+        
         private final Node<String> style = new Node.Builder("style")
                 .content(
                         new StringBuilder()
@@ -263,25 +298,47 @@ public class NewMain {
                                 .toString()
                 )
                 .build();
-
+        
         @Override
         public String render() {
             return style.render();
         }
-
+        
     }
     
-    // *************************************************************************
-    
-    private static class Element implements Renderer {
+    private static class TableRenderer implements Renderer {
+        
+        private final List<Renderer> contents = new ArrayList<>();
+        
+        public TableRenderer(THeadRenderer head, TBodyRenderer body, TFootRenderer foot) {
+            if (head != null) {
+                this.contents.add(head);
+            }
+            this.contents.add(body);
+            if (foot != null) {
+                this.contents.add(foot);
+            }
+        }
+        
+        @Override
+        public String render() {
+            return new Node.Builder("table")
+                    .content(contents)
+                    .build()
+                    .render();
+        }
+    }
 
+    // *************************************************************************
+    private static class Element implements Renderer {
+        
         private final String tag;
         private final Integer colspan;
         private final Integer rowspan;
         private final String style;
         private final String clazz;
         private final List<Renderer> contents;
-
+        
         private Element(Builder builder) {
             this.tag = builder.tag;
             this.colspan = builder.colspan;
@@ -290,84 +347,82 @@ public class NewMain {
             this.contents = builder.contents;
             this.clazz = builder.clazz;
         }
-
-        public static class Builder {
-
+        
+        public static abstract class Builder<T extends Element, B extends Builder<T, B>> {
+            
             private final String tag;
             private Integer colspan = null;
             private Integer rowspan = null;
             private String style = null;
             private String clazz = null;
             private List<Renderer> contents = new ArrayList<>();
-
-            public Builder colspan(Integer colspan) {
+            
+            public B colspan(Integer colspan) {
                 this.colspan = colspan;
-                return this;
+                return (B) this;
             }
-
-            public Builder rowspan(Integer rowspan) {
+            
+            public B rowspan(Integer rowspan) {
                 this.rowspan = rowspan;
-                return this;
+                return (B) this;
             }
-
-            public Builder style(String style) {
+            
+            public B style(String style) {
                 this.style = style;
-                return this;
+                return (B) this;
             }
-
-            public Builder clazz(String clazz) {
+            
+            public B clazz(String clazz) {
                 this.clazz = clazz;
-                return this;
+                return (B) this;
             }
-
-            public Builder contents(List<Renderer> contents) {
+            
+            public B contents(List<Renderer> contents) {
                 this.contents.clear();
                 this.contents.addAll(contents);
-                return this;
+                return (B) this;
             }
-
-            public Builder addContent(Renderer content) {
+            
+            public B addContent(Renderer content) {
                 this.contents.add(content);
-                return this;
+                return (B) this;
             }
-
+            
             public Builder(String tag) {
                 this.tag = tag;
             }
-
-            public Element build() {
-                return new Element(this);
-            }
-
+            
+            abstract public T build();
+            
         }
-
+        
         public Integer getColspan() {
             return colspan;
         }
-
+        
         public Integer getRowspan() {
             return rowspan;
         }
-
+        
         public String getStyle() {
             return style;
         }
-
+        
         public String getClazz() {
             return clazz;
         }
-
+        
         public List<Renderer> getContents() {
             return contents;
         }
-
-        private <T> String asString(T value) {
+        
+        private <V> String asString(V value) {
             if ((value != null)) {
                 return value.toString();
             }
             return null;
         }
-
+        
         @Override
         public String render() {
             return new Node.Builder(tag)
@@ -382,53 +437,111 @@ public class NewMain {
                     .render();
         }
     }
-
-    private static class THRenderer extends Element {
-
-        private THRenderer(Builder builder) {
+    
+    private static class ThRenderer extends Element {
+        
+        private ThRenderer(Builder builder) {
             super(builder);
         }
-
-        public static class Builder extends Element.Builder {
-
+        
+        public static class Builder extends Element.Builder<ThRenderer, Builder> {
+            
             public Builder() {
                 super("th");
             }
-
+            
             @Override
-            public THRenderer build() {
-                return new THRenderer(this);
+            public ThRenderer build() {
+                return new ThRenderer(this);
             }
         }
     }
-
+    
+    private static class TrRenderer extends Element {
+        
+        private TrRenderer(Builder builder) {
+            super(builder);
+        }
+        
+        public static class Builder extends Element.Builder<TrRenderer, Builder> {
+            
+            public Builder() {
+                super("tr");
+            }
+            
+            @Override
+            public TrRenderer build() {
+                return new TrRenderer(this);
+            }
+        }
+    }
+    
+    private static class TdRenderer extends Element {
+        
+        private TdRenderer(Builder builder) {
+            super(builder);
+        }
+        
+        public static class Builder extends Element.Builder<TdRenderer, Builder> {
+            
+            public Builder() {
+                super("td");
+            }
+            
+            @Override
+            public TdRenderer build() {
+                return new TdRenderer(this);
+            }
+            
+        }
+    }
+    
+    private static class DivRenderer extends Element {
+        
+        private DivRenderer(Builder builder) {
+            super(builder);
+        }
+        
+        public static class Builder extends Element.Builder<DivRenderer, Builder> {
+            
+            public Builder() {
+                super("div");
+            }
+            
+            @Override
+            public DivRenderer build() {
+                return new DivRenderer(this);
+            }
+        }
+    }
+    
     private static class THeadRenderer extends Element {
-
+        
         private THeadRenderer(Builder builder) {
             super(builder);
         }
-
-        public static class Builder extends Element.Builder {
-
+        
+        public static class Builder extends Element.Builder<THeadRenderer, Builder> {
+            
             public Builder() {
                 super("thead");
             }
-
+            
             @Override
             public THeadRenderer build() {
                 return new THeadRenderer(this);
             }
         }
     }
-
+    
     private static class TBodyRenderer extends Element {
-
+        
         private TBodyRenderer(Builder builder) {
             super(builder);
         }
-
-        public static class Builder extends Element.Builder {
-
+        
+        public static class Builder extends Element.Builder<TBodyRenderer, Builder> {
+            
             public Builder() {
                 super("tbody");
             }
@@ -439,57 +552,38 @@ public class NewMain {
             }
         }
     }
-
+    
     private static class TFootRenderer extends Element {
-
+        
         private TFootRenderer(Builder builder) {
             super(builder);
         }
-
-        public static class Builder extends Element.Builder {
-
+        
+        public static class Builder extends Element.Builder<TFootRenderer, Builder> {
+            
             public Builder() {
                 super("tfoot");
             }
-
+            
             @Override
             public TFootRenderer build() {
                 return new TFootRenderer(this);
             }
         }
     }
-
-    private static class TableRenderer extends Element {
-
-        private TableRenderer(Builder builder) {
-            super(builder);
-        }
-
-        public static class Builder extends Element.Builder {
-
-            public Builder() {
-                super("table");
-            }
-
-            @Override
-            public TableRenderer build() {
-                return new TableRenderer(this);
-            }
-        }
-    }
-
+    
     private static class BodyRenderer extends Element {
-
+        
         private BodyRenderer(Builder builder) {
             super(builder);
         }
-
-        public static class Builder extends Element.Builder {
-
+        
+        public static class Builder extends Element.Builder<BodyRenderer, Builder> {
+            
             public Builder() {
                 super("body");
             }
-
+            
             @Override
             public BodyRenderer build() {
                 return new BodyRenderer(this);
