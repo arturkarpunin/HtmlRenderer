@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Tabela uproszczona</title>
+</head>
+<body>
+
+<table style="width: 100%; border-collapse: collapse;" border="1">
+  <!-- Nagłówek -->
+  <thead>
+    <tr>
+      <th rowspan="2" style="width: 16px; padding: 8px; background: #fff; color: #000; text-align: center;">Lp</th>
+      <th colspan="4" style="padding: 8px; background: #fff; color: #000; text-align: center;">Warunek podpisu: (np. "OR")</th>
+    </tr>
+    <tr>
+      <th colspan="2" style="padding: 8px; background: #fff; color: #000; text-align: center;">Kolumna 1</th>
+      <th colspan="2" style="padding: 8px; background: #fff; color: #000; text-align: center;">Kolumna 2</th>
+    </tr>
+  </thead>
+
+  <!-- Wiersze -->
+  <tbody>
+    <tr>
+      <td style="padding: 8px; background: #fff; color: #000; text-align: center;">1.</td>
+      <td style="padding: 8px; text-align: center;"><div style="width:16px; height:16px; display:inline-block; background-color:green;"></div></td>
+      <td style="padding: 8px; background: #fff; color: #000; text-align: center;">Jan Kowalski</td>
+      <td style="padding: 8px; text-align: center;"><div style="width:16px; height:16px; display:inline-block; background-color:red;"></div></td>
+      <td style="padding: 8px; color: #999; text-align: center;">Anna Nowak</td>
+    </tr>
+    <tr>
+      <td style="padding: 8px; background: #fff; color: #000; text-align: center;">2.</td>
+      <td style="padding: 8px; text-align: center;"><div style="width:16px; height:16px; display:inline-block; background-color:green;"></div></td>
+      <td style="padding: 8px; background: #fff; color: #000; text-align: center;">Adam Wiśniewski</td>
+      <td style="padding: 8px; text-align: center;"></td>
+      <td style="padding: 8px; color: #999; text-align: center;">Brak</td>
+    </tr>
+  </tbody>
+
+  <!-- Stopka -->
+  <tfoot>
+    <tr>
+      <td style="padding: 8px; background: #fff; color: #000; text-align: center;">Podsumowanie</td>
+      <td style="padding: 8px; text-align: center;"><div style="width:16px; height:16px; display:inline-block; background-color:green;"></div></td>
+      <td style="padding: 8px; background: #fff; color: #000; text-align: center;">2 / 2 podpisów</td>
+      <td style="padding: 8px; text-align: center;"><div style="width:16px; height:16px; display:inline-block; background-color:red;"></div></td>
+      <td style="padding: 8px; background: #fff; color: #000; text-align: center;">1 / 2 podpisów</td>
+    </tr>
+    <tr>
+      <td rowspan="2" style="padding: 8px; vertical-align: middle; text-align: center;">
+        <div style="width:16px; height:16px; display:inline-block; background-color:green;" title="Status: podpisano"></div>
+      </td>
+      <td colspan="4" style="padding: 8px; background: #fff; color: #000; text-align: center;">Wynik podpisu: Podpisano – Lista: 1234567890</td>
+    </tr>
+  </tfoot>
+</table>
+
+</body>
+</html>
