@@ -24,7 +24,7 @@ public class Attributes implements Renderer {
     @Override
     public String render() {
         StringBuilder sb = new StringBuilder();
-        maps.forEach((java.lang.String t, java.lang.String u) -> {
+        maps.forEach((String t, String u) -> {
             if (u != null) {
                 sb.append(String.format(" %s=\"%s\"", t, u));
             }
