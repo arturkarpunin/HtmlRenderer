@@ -57,7 +57,7 @@ public class NewMain {
                 new TFootRenderer.Builder()
                         .build());
 
-        BodyRenderer body = (BodyRenderer) new BodyRenderer.Builder()
+        BodyRenderer body = new BodyRenderer.Builder()
                 .addContent(table)
                 .build();
 
