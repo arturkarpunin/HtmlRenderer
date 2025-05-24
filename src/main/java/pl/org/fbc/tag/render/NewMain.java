@@ -29,7 +29,7 @@ public class NewMain {
     public static void main(String[] args) {
         TdRenderer td = new TdRenderer.Builder()
                 .addContent(
-                        new Node.Builder<String>()
+                        new Node.Builder<>()
                                 .content("ala ma kota")
                                 .build())
                 .build();
@@ -37,7 +37,7 @@ public class NewMain {
         ThRenderer th = new ThRenderer.Builder()
                 .colspan(2)
                 .style("width: 16px;")
-                .addContent(new Node.Builder<String>()
+                .addContent(new Node.Builder<>()
                         .content("ala ma kota")
                         .build())
                 .build();
