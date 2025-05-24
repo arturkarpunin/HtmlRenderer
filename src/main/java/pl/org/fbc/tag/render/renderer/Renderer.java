@@ -1,4 +1,4 @@
-package com.mycompany.render;
+package pl.org.fbc.tag.render.renderer;
 
 /*
  * To change this license header, choose License Headers in Project Properties.

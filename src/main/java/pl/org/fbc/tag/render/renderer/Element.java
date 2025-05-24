@@ -3,12 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.mycompany.render;
+package pl.org.fbc.tag.render.renderer;
 
 import java.util.ArrayList;
 import java.util.List;
 
-// *************************************************************************
 
 public class Element implements Renderer {
 
@@ -104,7 +103,16 @@ public class Element implements Renderer {
 
     @Override
     public String render() {
-        return new Node.Builder(tag).attributes(new Attributes().add("colspan", asString(colspan)).add("rowspan", asString(rowspan)).add("style", style).add("class", clazz)).content(contents).build().render();
+        return new Node.Builder(tag)
+                .attributes(
+                        new Attributes()
+                                .add("colspan", asString(colspan))
+                                .add("rowspan", asString(rowspan))
+                                .add("style", style)
+                                .add("class", clazz))
+                .content(contents)
+                .build()
+                .render();
     }
-    
+
 }

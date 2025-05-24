@@ -3,19 +3,19 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.mycompany.htmlrend;
+package pl.org.fbc.tag.render;
 
-import com.mycompany.render.BodyRenderer;
-import com.mycompany.render.TFootRenderer;
-import com.mycompany.render.TBodyRenderer;
-import com.mycompany.render.THeadRenderer;
-import com.mycompany.render.TdRenderer;
-import com.mycompany.render.TrRenderer;
-import com.mycompany.render.ThRenderer;
-import com.mycompany.render.HtmlRenderer;
-import com.mycompany.render.HeadRenderer;
-import com.mycompany.render.TableRenderer;
-import com.mycompany.render.Node;
+import pl.org.fbc.tag.render.renderer.BodyRenderer;
+import pl.org.fbc.tag.render.renderer.TFootRenderer;
+import pl.org.fbc.tag.render.renderer.TBodyRenderer;
+import pl.org.fbc.tag.render.renderer.THeadRenderer;
+import pl.org.fbc.tag.render.renderer.TdRenderer;
+import pl.org.fbc.tag.render.renderer.TrRenderer;
+import pl.org.fbc.tag.render.renderer.ThRenderer;
+import pl.org.fbc.tag.render.renderer.HtmlRenderer;
+import pl.org.fbc.tag.render.renderer.HeadRenderer;
+import pl.org.fbc.tag.render.renderer.TableRenderer;
+import pl.org.fbc.tag.render.renderer.Node;
 
 /**
  *

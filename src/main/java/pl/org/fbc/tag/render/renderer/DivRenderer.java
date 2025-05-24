@@ -3,27 +3,27 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.mycompany.render;
+package pl.org.fbc.tag.render.renderer;
 
 /**
  *
  * @author artur
  */
-public class TFootRenderer extends Element {
+public class DivRenderer extends Element {
     
-    private TFootRenderer(Builder builder) {
+    private DivRenderer(Builder builder) {
         super(builder);
     }
 
-    public static class Builder extends Element.Builder<TFootRenderer, Builder> {
+    public static class Builder extends Element.Builder<DivRenderer, Builder> {
 
         public Builder() {
-            super("tfoot");
+            super("div");
         }
 
         @Override
-        public TFootRenderer build() {
-            return new TFootRenderer(this);
+        public DivRenderer build() {
+            return new DivRenderer(this);
         }
     }
     

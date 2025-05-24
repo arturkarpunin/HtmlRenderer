@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.mycompany.render;
+package pl.org.fbc.tag.render.renderer;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,7 +24,10 @@ public class HeadRenderer implements Renderer {
 
     @Override
     public String render() {
-        return new Node.Builder("head").content(contents).build().render();
+        return new Node.Builder("head")
+                .content(contents)
+                .build()
+                .render();
     }
     
 }

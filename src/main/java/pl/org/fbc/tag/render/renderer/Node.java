@@ -3,13 +3,14 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.mycompany.render;
+package pl.org.fbc.tag.render.renderer;
 
 import java.util.List;
 
 /**
  *
  * @author artur
+ * @param <T> Typ węzła. 
  */
 public class Node<T> implements Renderer {
     
